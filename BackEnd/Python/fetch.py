@@ -1,5 +1,5 @@
 import requests
-from requests.sessions import _Data
+
 from bs4 import BeautifulSoup
 
 #  https://registration.ueab.ac.ke/ueab/j_security_check
@@ -10,14 +10,18 @@ profile=('https://registration.ueab.ac.ke/ueab/a_students.jsp?view=2:0')
 school_info=('https://registration.ueab.ac.ke/ueab/a_students.jsp?view=10:0')
 
 username='SKAHMU2011'
-password='886I882OW'
+#fill out this string to log in
+password=''
 payload={
     'j_username':username,
     'j_password':password,
 }
-with requests.sessions() as s:
+# dash=requests.post(login_url,data=payload ,verify=False)
+# print(dash.text)
+with requests.session() as s:
     s.post(login_url,data=payload)
     dashboard_request=s.get(dashboard)
+    print(dashboard_request.text)
     profile_request=BeautifulSoup(profile,'lxml')
     school_info_request=BeautifulSoup(school_info,'lxml')
     dash_soup=BeautifulSoup(dashboard_request.content,'lxml')
